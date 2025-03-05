@@ -15,7 +15,7 @@ async def on_ready():
     print("bot is ready")
     await client.change_presence(status=discord.Status.online)
     try:
-        synced = await client.tree.sync(guild=discord.Object(id=1340446614061322280))
+        synced = await client.tree.sync(guild=discord.Object(id=config["guildID"]))
         print(f"Synced {len(synced)} command(s)")
     except Exception as e:
         print(f"Failed to sync commands: {e}")
