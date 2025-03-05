@@ -3,7 +3,7 @@ from discord import app_commands
 from discord.ext import commands 
 from datetime import datetime
 import json
-import time
+import asyncio
 
 with open("config.json") as config:
     config = json.load(config)
@@ -35,13 +35,14 @@ async def on_ready():
             else:
                 await user.add_roles(verifiedRole)
                 await interaction.response.send_message("You have successfully been verified.", ephemeral=True)
-    embed = discord.Embed(title = "Reboot Rust verification", description = "Click the 'Accept' Button to verify now.", color = 0xFF0000)
+    embed = discord.Embed(title = "Reboot Rust verification", description = "Click the 'Verify' Button to verify now.", color = 0xFF0000)
     embed.add_field(name = "Why verify?", value = "We, at Reboot, have decided to add this feature to stop bot accounts & scammers from joining the Server.", inline = False)
     guild = client.get_guild(int(config["guildID"]))
     channel = guild.get_channel(int(config["channelID"]))
     message = await channel.send(embed = embed, view = VerifyButton())
-    time.sleep(10)
-    await message.delete()
-    message = await channel.send(embed = embed, view = VerifyButton())
+    while True:
+        await asyncio.sleep(84600)
+        await message.delete()
+        message = await channel.send(embed = embed, view = VerifyButton())
 
 client.run(config["token"])
